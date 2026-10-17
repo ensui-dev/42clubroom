@@ -1,0 +1,64 @@
+﻿Backlog ID,Title,Epic,Priority,Delivery milestone,Design track,Suggested owner,Estimate (h),MVP saving (h),Tasks,Branch,Source
+E01-S01,Repository bootstrap,E01 Foundation,Must,M0 Skeleton + login,A,A,2,0,4,UNIX_CLUB/dev/chore(E01-S01)/repository-bootstrap,docs/implementation/backlog/E01-project-foundation.md
+E01-S02,Backend skeleton,E01 Foundation,Must,M0 Skeleton + login,A,A,2.75,0,6,UNIX_CLUB/dev/build(E01-S02)/backend-skeleton,docs/implementation/backlog/E01-project-foundation.md
+E01-S03,Frontend skeleton,E01 Foundation,Must,M0 Skeleton + login,C,C,2.25,0,4,UNIX_CLUB/dev/build(E01-S03)/frontend-skeleton,docs/implementation/backlog/E01-project-foundation.md
+E01-S04,API contract pipeline,E01 Foundation,Must,M0 Skeleton + login,A + C,A + C,1.25,0,4,UNIX_CLUB/dev/feat(E01-S04)/api-contract-pipeline,docs/implementation/backlog/E01-project-foundation.md
+E02-S01,Login with 42,E02 Identity & auth,Must,M0 Skeleton + login,A,A + B,3.5,0.5,7,UNIX_CLUB/dev/feat(E02-S01)/login-with-42,docs/implementation/backlog/E02-identity-authentication.md
+E02-S02,Local login and admin bootstrap,E02 Identity & auth,Must,M0 Skeleton + login,A,A,1.5,0,4,UNIX_CLUB/dev/feat(E02-S02)/local-login,docs/implementation/backlog/E02-identity-authentication.md
+E02-S03,Authentication UI,E02 Identity & auth,Must,M0 Skeleton + login,C,C,2.25,0,3,UNIX_CLUB/dev/feat(E02-S03)/auth-ui,docs/implementation/backlog/E02-identity-authentication.md
+E02-S04,User directory API,E02 Identity & auth,Must,M1 Clubs exist,A,A,0.75,0,2,UNIX_CLUB/dev/feat(E02-S04)/user-directory,docs/implementation/backlog/E02-identity-authentication.md
+E03-S01,App shell and routing,E03 Shell & design system,Must,M0 Skeleton + login,C,C,1.5,0,2,UNIX_CLUB/dev/feat(E03-S01)/app-shell,docs/implementation/backlog/E03-frontend-shell-design-system.md
+E03-S02,Design system and primitives,E03 Shell & design system,Must,M0 Skeleton + login,C,C,2,0,3,UNIX_CLUB/dev/feat(E03-S02)/design-system,docs/implementation/backlog/E03-frontend-shell-design-system.md
+E03-S03,UX polish pass,E03 Shell & design system,Should,M5 Ship,C,C,3,0,4,UNIX_CLUB/dev/style(E03-S03)/ux-polish,docs/implementation/backlog/E03-frontend-shell-design-system.md
+E04-S01,Request the creation of a club,E04 Club lifecycle,Must,M1 Clubs exist,A + C,A + C,4.5,1,6,UNIX_CLUB/dev/feat(E04-S01)/club-creation-request,docs/implementation/backlog/E04-club-lifecycle.md
+E04-S02,Admin approves or rejects club requests,E04 Club lifecycle,Must,M1 Clubs exist,A + C,A + C,2.5,0,4,UNIX_CLUB/dev/feat(E04-S02)/club-approval,docs/implementation/backlog/E04-club-lifecycle.md
+E04-S03,Club page,E04 Club lifecycle,Must,M1 Clubs exist,C,C,2.5,0.5,2,UNIX_CLUB/dev/feat(E04-S03)/club-page,docs/implementation/backlog/E04-club-lifecycle.md
+E04-S04,Edit club profile and join policy,E04 Club lifecycle,Should,M2 Community,A + C,A + C,2,0,2,UNIX_CLUB/dev/feat(E04-S04)/club-profile-settings,docs/implementation/backlog/E04-club-lifecycle.md
+E05-S01,"Space model, access evaluator and default space",E05 Spaces & access,Must,M1 Clubs exist,B,B,2.75,0.5,5,UNIX_CLUB/dev/feat(E05-S01)/spaces-access-evaluator,docs/implementation/backlog/E05-spaces-access-control.md
+E05-S02,Spaces API and club sidebar,E05 Spaces & access,Must,M1 Clubs exist,B + C,B,2.25,0,2,UNIX_CLUB/dev/feat(E05-S02)/spaces-sidebar,docs/implementation/backlog/E05-spaces-access-control.md
+E05-S03,"Manage spaces, channels and access rules",E05 Spaces & access,Should,M4 Lifecycle,B + C,B,3,0,2,UNIX_CLUB/dev/feat(E05-S03)/manage-spaces,docs/implementation/backlog/E05-spaces-access-control.md
+E06-S01,Club directory read model and public API,E06 Discovery & landing,Must,M1 Clubs exist,A,B,2,0.5,3,UNIX_CLUB/dev/feat(E06-S01)/club-directory-api,docs/implementation/backlog/E06-discovery-landing.md
+E06-S02,Landing page,E06 Discovery & landing,Must,M1 Clubs exist,C,C,1.5,0,1,UNIX_CLUB/dev/feat(E06-S02)/landing-page,docs/implementation/backlog/E06-discovery-landing.md
+E06-S03,Club directory and public club profile,E06 Discovery & landing,Must,M1 Clubs exist,C,C,2.25,0.5,2,UNIX_CLUB/dev/feat(E06-S03)/club-directory-ui,docs/implementation/backlog/E06-discovery-landing.md
+E07-S01,Membership model and club authorization API,E07 Membership & joining,Must,M1 Clubs exist,A,A,3,0,6,UNIX_CLUB/dev/feat(E07-S01)/membership-authorization,docs/implementation/backlog/E07-membership-joining.md
+E07-S02,Join a club,E07 Membership & joining,Must,M2 Community,A + C,A + C,2.5,0.5,3,UNIX_CLUB/dev/feat(E07-S02)/join-club,docs/implementation/backlog/E07-membership-joining.md
+E07-S03,Handle join requests,E07 Membership & joining,Must,M2 Community,A + C,A + C,1.75,0,3,UNIX_CLUB/dev/feat(E07-S03)/join-requests,docs/implementation/backlog/E07-membership-joining.md
+E07-S04,Members list and removal,E07 Membership & joining,Should,M2 Community,A + C,A + C,2,0,2,UNIX_CLUB/dev/feat(E07-S04)/members-list,docs/implementation/backlog/E07-membership-joining.md
+E08-S01,Object storage integration,E08 Media uploads,Must,M2 Community,B,B,1.5,0,3,UNIX_CLUB/dev/feat(E08-S01)/object-storage,docs/implementation/backlog/E08-media-uploads.md
+E08-S02,Upload and attach media,E08 Media uploads,Must,M2 Community,B + C,B,3,0.75,3,UNIX_CLUB/dev/feat(E08-S02)/media-upload,docs/implementation/backlog/E08-media-uploads.md
+E08-S03,Orphan media cleanup,E08 Media uploads,Could,M5 Ship,B,B,0.5,0,1,UNIX_CLUB/dev/feat(E08-S03)/orphan-cleanup,docs/implementation/backlog/E08-media-uploads.md
+E09-S01,Publish and read posts with media,E09 Forum,Must,M2 Community,B + C,B,5,0.75,5,UNIX_CLUB/dev/feat(E09-S01)/posts,docs/implementation/backlog/E09-forum-posts-comments-reactions.md
+E09-S02,Comments with one level of replies,E09 Forum,Must,M2 Community,B + C,B,2.25,0.5,2,UNIX_CLUB/dev/feat(E09-S02)/comments,docs/implementation/backlog/E09-forum-posts-comments-reactions.md
+E09-S03,Emoji reactions,E09 Forum,Must,M2 Community,B + C,B,1.5,0,2,UNIX_CLUB/dev/feat(E09-S03)/reactions,docs/implementation/backlog/E09-forum-posts-comments-reactions.md
+E09-S04,"Edit, delete, pin and moderate",E09 Forum,Should,M4 Lifecycle,B + C,B,1.75,0,2,UNIX_CLUB/dev/feat(E09-S04)/forum-moderation,docs/implementation/backlog/E09-forum-posts-comments-reactions.md
+E09-S05,Club feed,E09 Forum,Should,M3 Calendar,B + C,B,1,0,2,UNIX_CLUB/dev/feat(E09-S05)/club-feed,docs/implementation/backlog/E09-forum-posts-comments-reactions.md
+E10-S01,Real-time infrastructure,E10 Real-time & chat,Should,M3 Calendar,B + C,B,2.25,0,4,UNIX_CLUB/dev/feat(E10-S01)/realtime,docs/implementation/backlog/E10-realtime-chat.md
+E10-S02,Chat rooms,E10 Real-time & chat,Should,M3 Calendar,B + C,B,4.25,0,4,UNIX_CLUB/dev/feat(E10-S02)/chat,docs/implementation/backlog/E10-realtime-chat.md
+E10-S03,Live forum updates,E10 Real-time & chat,Could,M3 Calendar,B + C,B,1.25,0,2,UNIX_CLUB/dev/feat(E10-S03)/live-forum,docs/implementation/backlog/E10-realtime-chat.md
+E11-S01,Create and manage club events,E11 Calendar & events,Must,M3 Calendar,B + C,B,3.25,0.5,4,UNIX_CLUB/dev/feat(E11-S01)/club-events,docs/implementation/backlog/E11-calendar-events.md
+E11-S02,Club and campus calendars,E11 Calendar & events,Must,M3 Calendar,B + C,B,2.75,0,2,UNIX_CLUB/dev/feat(E11-S02)/calendars,docs/implementation/backlog/E11-calendar-events.md
+E11-S03,RSVP and attendance,E11 Calendar & events,Should,M3 Calendar,B + C,B,1.5,0,2,UNIX_CLUB/dev/feat(E11-S03)/rsvp,docs/implementation/backlog/E11-calendar-events.md
+E11-S04,Event reminders,E11 Calendar & events,Could,M5 Ship,B,B,0.75,0,1,UNIX_CLUB/dev/feat(E11-S04)/event-reminders,docs/implementation/backlog/E11-calendar-events.md
+E11-S05,Personal iCal feed,E11 Calendar & events,Could,M5 Ship,B + C,B,1.5,0,2,UNIX_CLUB/dev/feat(E11-S05)/ical-feed,docs/implementation/backlog/E11-calendar-events.md
+E11-S06,Cancel future events when a club is archived,E11 Calendar & events,Must,M4 Lifecycle,B,B,0.25,0,1,UNIX_CLUB/dev/feat(E11-S06)/archive-cancels-events,docs/implementation/backlog/E11-calendar-events.md
+E12-S01,In-app notifications,E12 Notifications & email,Should,M3 Calendar,B + C,B,4.75,0,5,UNIX_CLUB/dev/feat(E12-S01)/in-app-notifications,docs/implementation/backlog/E12-notifications-email.md
+E12-S02,Notification preferences,E12 Notifications & email,Should,M4 Lifecycle,B + C,B,1.5,0,2,UNIX_CLUB/dev/feat(E12-S02)/notification-preferences,docs/implementation/backlog/E12-notifications-email.md
+E12-S03,Email notifications via Resend,E12 Notifications & email,Should,M4 Lifecycle,B,B,1.5,0,3,UNIX_CLUB/dev/feat(E12-S03)/email-resend,docs/implementation/backlog/E12-notifications-email.md
+E13-S01,Co-ownership and ownership transfer,E13 Governance,Must,M4 Lifecycle,A + C,A + C,4,1,4,UNIX_CLUB/dev/feat(E13-S01)/ownership-transfer,docs/implementation/backlog/E13-governance-ownership-roles-groups.md
+E13-S02,Custom club roles,E13 Governance,Should,M4 Lifecycle,A + C,A + C,3.75,0,2,UNIX_CLUB/dev/feat(E13-S02)/custom-roles,docs/implementation/backlog/E13-governance-ownership-roles-groups.md
+E13-S03,Club groups,E13 Governance,Should,M4 Lifecycle,A + C,A + C,3.25,0,3,UNIX_CLUB/dev/feat(E13-S03)/club-groups,docs/implementation/backlog/E13-governance-ownership-roles-groups.md
+E13-S04,Campus groups synced from 42,E13 Governance,Could,M5 Ship,A,A,0.75,0,1,UNIX_CLUB/dev/feat(E13-S04)/campus-groups-sync,docs/implementation/backlog/E13-governance-ownership-roles-groups.md
+E14-S01,Archive a club,E14 Archival & history,Must,M4 Lifecycle,A + C,A + C,2.5,0,4,UNIX_CLUB/dev/feat(E14-S01)/archive-club,docs/implementation/backlog/E14-archival-revival-history.md
+E14-S02,Revive an archived club,E14 Archival & history,Should,M4 Lifecycle,A + C,A + C,2.5,0,3,UNIX_CLUB/dev/feat(E14-S02)/club-revival,docs/implementation/backlog/E14-archival-revival-history.md
+E14-S03,Club history,E14 Archival & history,Must,M4 Lifecycle,A + C,A + C,3.5,0.75,3,UNIX_CLUB/dev/feat(E14-S03)/club-history,docs/implementation/backlog/E14-archival-revival-history.md
+E15-S01,Admin layout,E15 Admin console,Must,M1 Clubs exist,C,C,0.75,0,1,UNIX_CLUB/dev/feat(E15-S01)/admin-layout,docs/implementation/backlog/E15-admin-console.md
+E15-S02,Users and local accounts,E15 Admin console,Should,M4 Lifecycle,A + C,A + C,3.5,0,3,UNIX_CLUB/dev/feat(E15-S02)/admin-users,docs/implementation/backlog/E15-admin-console.md
+E15-S03,Campus groups administration,E15 Admin console,Could,M5 Ship,A + C,A + C,2,0,2,UNIX_CLUB/dev/feat(E15-S03)/campus-groups-admin,docs/implementation/backlog/E15-admin-console.md
+E15-S04,Operations card,E15 Admin console,Could,M5 Ship,A + C,A + C,1,0,1,UNIX_CLUB/dev/feat(E15-S04)/ops-card,docs/implementation/backlog/E15-admin-console.md
+E16-S01,Container images and production compose,E16 Deploy & submission,Must,M1 Clubs exist,A,A,1.5,0,3,UNIX_CLUB/dev/build(E16-S01)/production-images,docs/implementation/backlog/E16-deployment-demo-submission.md
+E16-S02,Publish the demo on `42clubroom.ensui.dev`,E16 Deploy & submission,Must,M1 Clubs exist,A,A + B,1.5,0,3,UNIX_CLUB/dev/chore(E16-S02)/demo-deployment,docs/implementation/backlog/E16-deployment-demo-submission.md
+E16-S03,Demo data,E16 Deploy & submission,Should,M5 Ship,A + B,A,2,0,1,UNIX_CLUB/dev/feat(E16-S03)/demo-data,docs/implementation/backlog/E16-deployment-demo-submission.md
+E16-S04,Scaling demonstration,E16 Deploy & submission,Could,M5 Ship,A,A,0.5,0,1,UNIX_CLUB/dev/chore(E16-S04)/scaling-demo,docs/implementation/backlog/E16-deployment-demo-submission.md
+E16-S05,README and submission,E16 Deploy & submission,Must,M5 Ship,All,A + B + C,2.25,0,3,UNIX_CLUB/dev/docs(E16-S05)/readme-submission,docs/implementation/backlog/E16-deployment-demo-submission.md
+E16-S06,Presentation and demo rehearsal,E16 Deploy & submission,Must,M5 Ship,All,A + B + C,2.5,0,2,UNIX_CLUB/dev/docs(E16-S06)/presentation,docs/implementation/backlog/E16-deployment-demo-submission.md
+E16-S07,End-to-end test of the key flow,E16 Deploy & submission,Could,M5 Ship,C,C,2,0,1,UNIX_CLUB/dev/test(E16-S07)/e2e-join-and-post,docs/implementation/backlog/E16-deployment-demo-submission.md

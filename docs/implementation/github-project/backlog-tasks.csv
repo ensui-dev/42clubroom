@@ -1,0 +1,180 @@
+﻿Backlog ID,Story,Description,Layer,Estimate (h),Depends on,Suggested owner,Priority,Delivery milestone,Epic
+E01-S01-T1,E01-S01,"Create UNIX_CLUB/main from main; add UNIX_CLUB/ with backend/, frontend/, deploy/, .gitignore (Java, Node, .env), .editorconfig, stub README.md",OPS,0.5,,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S01-T2,E01-S01,"Add CONTRIBUTING.md and the 3 Git hooks (commit-msg, pre-commit, pre-push) in UNIX_CLUB/.githooks/",DOC,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S01-T3,E01-S01,"Add compose.yaml, compose.dev.yaml, deploy/seaweedfs/s3.json, .env.example",OPS,0.75,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S01-T4,E01-S01,"Every developer: enable hooks, copy .env, start compose, confirm health; agree on the secret-sharing channel",OPS,0.25,"T2, T3",A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T1,E01-S02,"pom.xml (Boot 3.5.16, Modulith 1.4.13 BOM, AWS SDK BOM), Maven wrapper 3.9.16, VclubroomApplication, application.yml, application-dev.yml, application-prod.yml",BE,0.75,E01-S01,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T2,E01-S02,"Shared kernel: Actor, AuthenticatedUser, error types + GlobalExceptionHandler, CursorPage, PageResponse, TimeCursor, TimeConfig, EventPublicationMaintenance",BE,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T3,E01-S02,"Base Flyway migration (schemas, pg_trgm, event_publication)",DB,0.25,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T4,E01-S02,Run the module skeleton script (13 modules + named interfaces); add ModularityTests,BE,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T5,E01-S02,"TestcontainersConfiguration + ApplicationSmokeTests (context loads, health UP)",TEST,0.5,T3,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T6,E01-S02,"Verify springdoc (/v3/api-docs, Swagger in dev) and actuator exposure",BE,0.25,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S03-T1,E01-S03,"npm create vite@9 (react-ts); pin dependencies to the versions in the design (react-router 7, FullCalendar 6, …)",FE,0.5,E01-S01,C,Must,M0 Skeleton + login,E01 Foundation
+E01-S03-T2,E01-S03,"@/ alias (tsconfig + Vite), Vite dev proxy (changeOrigin: false)",FE,0.5,T1,C,Must,M0 Skeleton + login,E01 Foundation
+E01-S03-T3,E01-S03,"Tailwind v4 (@tailwindcss/vite), shadcn init, theme.css tokens (light/dark)",FE,0.75,T2,C,Must,M0 Skeleton + login,E01 Foundation
+E01-S03-T4,E01-S03,"ESLint flat config with feature boundaries, Vitest + jsdom, feature folder skeleton with an index.ts per feature",FE,0.5,T1,C,Must,M0 Skeleton + login,E01 Foundation
+E01-S04-T1,E01-S04,api:types script; commit the first schema.d.ts,FE,0.25,"E01-S02-T6, E01-S03",C,Must,M0 Skeleton + login,E01 Foundation
+E01-S04-T2,E01-S04,"client.ts (CSRF + error middleware), errors.ts, bootstrapCsrf()",FE,0.5,T1,C,Must,M0 Skeleton + login,E01 Foundation
+E01-S04-T3,E01-S04,queryClient.ts + providers.tsx (QueryClientProvider; slot for RealtimeProvider),FE,0.25,T2,C,Must,M0 Skeleton + login,E01 Foundation
+E01-S04-T4,E01-S04,Stub GET /api/public/categories in discovery (reads app.clubs.categories) to prove the pipeline,BE,0.25,E01-S02,A,Must,M0 Skeleton + login,E01 Foundation
+E02-S01-T1,E02-S01,"Register the 42 OAuth app with the 3 redirect URIs (dev, local prod, https://42clubroom.ensui.dev); share FT_CLIENT_ID/SECRET privately",OPS,0.25,,B,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S01-T2,E02-S01,"identity migration, User entity, enums, UserRepository",BE,0.5,E01-S02,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S01-T3,E02-S01,"FortyTwoProfileMapper, FortyTwoOAuth2UserService, ClubroomOAuth2User",BE,0.5,T2,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S01-T4,E02-S01,"UserProvisioningService + UserRegistered / UserProfileSynced events, IdentityProperties",BE,0.5,T2,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S01-T5,E02-S01,"SecurityConfig (URL rules, OAuth2 login, 401 entry point, logout), SpaCsrfTokenRequestHandler, Spring Session Redis config",BE,1,T3,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S01-T6,E02-S01,MeController + MeResponse + UserDirectoryService.requireMe,BE,0.25,T4,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S01-T7,E02-S01,Tests: mapper unit test with a sample /v2/me JSON; @WebMvcTest asserting 401 on /api/me without session,TEST,0.5,T5,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S02-T1,E02-S02,"LocalUserDetailsService, LocalUserDetails, LocalPrincipal, localAuthenticationManager + PasswordEncoder beans",BE,0.5,E02-S01-T5,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S02-T2,E02-S02,"AuthController (/api/auth/login, /api/auth/csrf)",BE,0.5,T1,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S02-T3,E02-S02,AdminBootstrap runner,BE,0.25,T1,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S02-T4,E02-S02,Test: local login success and failure (integration with Testcontainers),TEST,0.25,T2,A,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S03-T1,E02-S03,"useMe, RequireAuth, RequireAdmin, safeReturnTo, PostLoginRedirect",FE,0.75,E01-S04,C,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S03-T2,E02-S03,"LoginPage: ""Login with 42"" button + local login form (React Hook Form + Zod), error display",FE,1,T1,C,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S03-T3,E02-S03,"Top-bar user menu, logout (POST /api/auth/logout + queryClient.clear())",FE,0.5,"T1, E03-S01",C,Must,M0 Skeleton + login,E02 Identity & auth
+E02-S04-T1,E02-S04,"identity.api (UserDirectory, UserSummary, UserContact, PlatformRole) + UserDirectoryService",BE,0.25,E02-S01,A,Must,M1 Clubs exist,E02 Identity & auth
+E02-S04-T2,E02-S04,"UserController: GET /api/users?query=&limit=, GET /api/users/{id}",BE,0.5,T1,A,Must,M1 Clubs exist,E02 Identity & auth
+E03-S01-T1,E03-S01,"router.tsx with the full route map (lazy routes), AppLayout (top bar, nav, notification bell slot), NotFoundPage, ErrorPage",FE,1,E01-S03,C,Must,M0 Skeleton + login,E03 Shell & design system
+E03-S01-T2,E03-S01,ClubLayout and AdminLayout placeholders with <Outlet/>; mount PostLoginRedirect,FE,0.5,T1,C,Must,M0 Skeleton + login,E03 Shell & design system
+E03-S02-T1,E03-S02,npx shadcn@4 add … for the component list above,FE,0.5,E01-S03-T3,C,Must,M0 Skeleton + login,E03 Shell & design system
+E03-S02-T2,E03-S02,"App primitives: PageHeader, EmptyState, StatusBadge (ACTIVE/ARCHIVED/PENDING), ClubAvatar, FullPageSpinner, Markdown (react-markdown + rehype-sanitize)",FE,1,T1,C,Must,M0 Skeleton + login,E03 Shell & design system
+E03-S02-T3,E03-S02,"shared/lib/dates.ts (Intl, Europe/Lisbon), theme toggle (Zustand + .dark class)",FE,0.5,T1,C,Must,M0 Skeleton + login,E03 Shell & design system
+E03-S03-T1,E03-S03,"Skeletons and empty states on all list pages (directory, feed, chat, calendar, notifications, admin queues)",FE,1,features merged,C,Should,M5 Ship,E03 Shell & design system
+E03-S03-T2,E03-S03,"Responsive pass (club sidebar as drawer on mobile, top bar collapse)",FE,1,features merged,C,Should,M5 Ship,E03 Shell & design system
+E03-S03-T3,E03-S03,"Accessibility pass (focus rings, labels, aria-live in chat, contrast check in both themes)",FE,0.5,features merged,C,Should,M5 Ship,E03 Shell & design system
+E03-S03-T4,E03-S03,"Copy and icon consistency (lucide icons, button wording, status labels)",FE,0.5,features merged,C,Should,M5 Ship,E03 Shell & design system
+E04-S01-T1,E04-S01,"club migration (clubs, club_eras, revival_requests)",DB,0.25,E01-S02,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S01-T2,E04-S01,"Domain Club, ClubEra, EraStartReason, Slug, ClubStatus, JoinPolicy + unit tests for the state machine and slug rules",BE,0.75,T1,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S01-T3,E04-S01,"ClubRepository, ClubProperties, ClubService.requestCreation, ClubCreationRequested event",BE,0.5,T2,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S01-T4,E04-S01,"ClubController (POST /api/clubs, GET /api/clubs/{idOrSlug}, GET /api/me/club-requests), DTOs, ClubQueryService, ClubDetailsAssembler (media URLs null until E08)",BE,0.5,T3,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S01-T5,E04-S01,ClubCatalog API + ClubCatalogService; ClubManagementGuard SPI with a temporary admin-only implementation (replaced in E07-S01-T4),BE,0.5,T3,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S01-T6,E04-S01,"CreateClubWizard (basics → description and tags → preview, React Hook Form + Zod, categories from /api/public/categories) and ""My requests"" list",FE,2,"T4 (contract), E03-S02",C,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S02-T1,E04-S02,"ClubService.approve/reject + ClubApproved, ClubRejected, ClubProfileUpdated",BE,0.5,E04-S01-T3,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S02-T2,E04-S02,"ClubAdminController (GET /api/admin/clubs?status=, approve, reject)",BE,0.25,T1,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S02-T3,E04-S02,Module test (@ApplicationModuleTest + Scenario): approving publishes ClubApproved with era 1,TEST,0.5,T1,A,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S02-T4,E04-S02,"ApprovalQueuePage in the admin console: list, preview, approve, reject-with-reason dialog",FE,1.25,"T2, E15-S01",C,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S03-T1,E04-S03,"ClubLayout: header (banner, avatar, name, StatusBadge, JoinButton slot), sidebar slot, right panel, responsive grid",FE,1.5,"E03-S01, E04-S01-T4",C,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S03-T2,E04-S03,"ClubHome: about card, stats, owners list, feed slot (E09-S05), events slot (E11-S02)",FE,1,T1,C,Must,M1 Clubs exist,E04 Club lifecycle
+E04-S04-T1,E04-S04,"ClubService.updateProfile (SPI guard, media attach, join policy) + PATCH /api/clubs/{id}",BE,0.5,"E04-S01, E07-S01-T4",A,Should,M2 Community,E04 Club lifecycle
+E04-S04-T2,E04-S04,"Club settings › Profile tab (form, avatar/banner upload with uploadMedia, join policy switch)",FE,1.5,"T1, E08-S02-T3",C,Should,M2 Community,E04 Club lifecycle
+E05-S01-T1,E05-S01,"space migration (spaces, channels)",DB,0.25,E01-S02,B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S01-T2,E05-S01,"Domain Space, Channel, AccessRule, AccessLevel + unit tests (normalisation)",BE,0.75,T1,B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S01-T3,E05-S01,"space.api (SpaceAccessPolicy, SpaceAudience, ChannelAccess, SpaceAccess, ChannelType) + SpaceAccessEvaluator + access-matrix unit tests (mock ClubCatalog, ClubAuthorization, GroupMembershipQuery)",BE,1.25,"T2, E07-S01-T4",B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S01-T4,E05-S01,DefaultSpaceProvisioner listener on ClubApproved,BE,0.25,"T2, E04-S02-T1",B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S01-T5,E05-S01,"group.api interfaces (GroupMembershipQuery, GroupCatalog, GroupSummary, GroupScope) + temporary implementation (no groups: false / empty), replaced in E13-S03",BE,0.25,E01-S02,B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S02-T1,E05-S02,"SpaceQueryService, SpaceController, ChannelController (GET endpoints)",BE,0.75,E05-S01,B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S02-T2,E05-S02,"SpaceSidebar in ClubLayout, ChannelPage dispatcher (FORUM → ChannelFeed, CHAT → ChatRoom; placeholders until E09/E10)",FE,1.5,"T1, E04-S03-T1",B,Must,M1 Clubs exist,E05 Spaces & access
+E05-S03-T1,E05-S03,"SpaceService create/update/archive spaces and channels (SPACE_MANAGE, GroupCatalog.assertUsableInClub)",BE,1,"E05-S02, E07-S01",B,Should,M4 Lifecycle,E05 Spaces & access
+E05-S03-T2,E05-S03,"SpaceSettings + AccessRuleEditor (level selectors, group picker, effective-audience sentence)",FE,2,"T1, E13-S03 (group picker)",B,Should,M4 Lifecycle,E05 Spaces & access
+E06-S01-T1,E06-S01,"discovery migration (club_cards with generated tsvector, trigram and GIN indexes)",DB,0.25,E01-S02,B,Must,M1 Clubs exist,E06 Discovery & landing
+E06-S01-T2,E06-S01,"ClubCardProjector (ClubProfileUpdated, ClubApproved, MemberJoined/Left, PostPublished) + ClubCardRepository upserts",BE,0.75,"T1, E04-S02-T1",B,Must,M1 Clubs exist,E06 Discovery & landing
+E06-S01-T3,E06-S01,"DirectorySearchRepository (JdbcClient), DirectoryQueryService, PublicDirectoryController (/landing, /clubs, /clubs/{slug}, /categories)",BE,1,T2,B,Must,M1 Clubs exist,E06 Discovery & landing
+E06-S02-T1,E06-S02,LandingPage + ClubCard component (used by the directory too),FE,1.5,"E06-S01-T3, E03-S02",C,Must,M1 Clubs exist,E06 Discovery & landing
+E06-S03-T1,E06-S03,"ClubDirectoryPage (search, filters, sort, archived toggle, pagination, URL state)",FE,1.5,E06-S02-T1,C,Must,M1 Clubs exist,E06 Discovery & landing
+E06-S03-T2,E06-S03,PublicClubProfilePage with join CTA and intent handling,FE,0.75,"E06-S01-T3, E07-S02-T3",C,Must,M1 Clubs exist,E06 Discovery & landing
+E07-S01-T1,E07-S01,"membership migration (roles, memberships, membership_roles, join_requests, ownership_invitations)",DB,0.25,E01-S02,A,Must,M1 Clubs exist,E07 Membership & joining
+E07-S01-T2,E07-S01,"Domain: Membership, ClubRole, SystemRole, JoinRequest, OwnershipInvitation, ClubOwnership, statuses; ClubPermission enum in api",BE,0.75,T1,A,Must,M1 Clubs exist,E07 Membership & joining
+E07-S01-T3,E07-S01,"Repositories with the documented queries (findActive, findHeldRoles, findHolderIds, findSystemRoleForUpdate…)",BE,0.5,T2,A,Must,M1 Clubs exist,E07 Membership & joining
+E07-S01-T4,E07-S01,ClubAuthorizationService implementing ClubAuthorization + ClubManagementGuard; remove the temporary guard,BE,0.5,"T3, E04-S01-T5",A,Must,M1 Clubs exist,E07 Membership & joining
+E07-S01-T5,E07-S01,MembershipAdmission + ClubLifecycleListener.on(ClubApproved),BE,0.5,"T3, E04-S02-T1",A,Must,M1 Clubs exist,E07 Membership & joining
+E07-S01-T6,E07-S01,"Module test: founder becomes owner (Scenario, OwnerAdded awaited)",TEST,0.5,T5,A,Must,M1 Clubs exist,E07 Membership & joining
+E07-S02-T1,E07-S02,"JoinService.join + JoinOutcome + events (MemberJoined, JoinRequested)",BE,0.5,E07-S01,A,Must,M2 Community,E07 Membership & joining
+E07-S02-T2,E07-S02,"MembershipController: join, membership/me, /api/me/memberships, leave (MemberLeft, BR-04)",BE,0.75,T1,A,Must,M2 Community,E07 Membership & joining
+E07-S02-T3,E07-S02,"JoinButton (+ ?intent=join), useMyMembership hook and can(permission) helper",FE,1.25,"T2 (contract), E04-S03",C,Must,M2 Community,E07 Membership & joining
+E07-S03-T1,E07-S03,"JoinService.approve/reject, cancel-mine, JoinRequestController",BE,0.5,E07-S02-T1,A,Must,M2 Community,E07 Membership & joining
+E07-S03-T2,E07-S03,ClubLifecycleListener.on(ClubProfileUpdated): OPEN → auto-approve,BE,0.25,T1,A,Must,M2 Community,E07 Membership & joining
+E07-S03-T3,E07-S03,JoinRequestsPanel (club settings › Requests) with approve/reject,FE,1,T1,C,Must,M2 Community,E07 Membership & joining
+E07-S04-T1,E07-S04,"MemberService + MemberController (list with UserDirectory.findByIds, remove)",BE,0.75,"E07-S02, E02-S04",A,Should,M2 Community,E07 Membership & joining
+E07-S04-T2,E07-S04,"MembersPage (search, role badges, remove action if permitted)",FE,1.25,T1,C,Should,M2 Community,E07 Membership & joining
+E08-S01-T1,E08-S01,media migration,DB,0.25,E01-S02,B,Must,M2 Community,E08 Media uploads
+E08-S01-T2,E08-S01,"StorageProperties, S3Config (path-style, checksum WHEN_REQUIRED, public-endpoint presigner), ObjectStorage port + S3ObjectStorage, BucketInitializer",BE,0.75,E01-S02,B,Must,M2 Community,E08 Media uploads
+E08-S01-T3,E08-S01,"De-risking spike: presign a PUT from a test endpoint, upload with curl via :5173 and via nginx :8080, then GET it",OPS,0.5,T2,B,Must,M2 Community,E08 Media uploads
+E08-S02-T1,E08-S02,"MediaObject, MediaProperties, MediaUploadService (slot, complete), MediaController",BE,0.75,E08-S01,B,Must,M2 Community,E08 Media uploads
+E08-S02-T2,E08-S02,"media.api (MediaCatalog, MediaView, MediaPurpose, MediaKind) + MediaCatalogService",BE,0.5,T1,B,Must,M2 Community,E08 Media uploads
+E08-S02-T3,E08-S02,"uploadMedia (XHR progress), MediaPicker, MediaView players",FE,1.75,T1 (contract),B,Must,M2 Community,E08 Media uploads
+E08-S03-T1,E08-S03,OrphanMediaCleanupJob (claimOrphans + delete),BE,0.5,E08-S02,B,Could,M5 Ship,E08 Media uploads
+E09-S01-T1,E09-S01,"forum migration (posts, post_media, comments, reactions)",DB,0.25,E01-S02,B,Must,M2 Community,E09 Forum
+E09-S01-T2,E09-S01,"Post domain + PostRepository (keyset queries, pinned)",BE,0.5,T1,B,Must,M2 Community,E09 Forum
+E09-S01-T3,E09-S01,"PostService.createPost (access check, media attach, era stamp, PostPublished) + PostController (create, list)",BE,0.75,"T2, E05-S01, E08-S02",B,Must,M2 Community,E09 Forum
+E09-S01-T4,E09-S01,"PostQueryService.list (era filter, keyset cursor, batch decoration: authors, media, reaction counts, my reactions, readOnly) + pinned endpoint",BE,1,T3,B,Must,M2 Community,E09 Forum
+E09-S01-T5,E09-S01,"ChannelFeed (infinite query), PostCard (Markdown + MediaView), PostComposer (Markdown textarea + MediaPicker), read-only/era banner",FE,2.5,"T3 (contract), E08-S02-T3, E05-S02-T2",B,Must,M2 Community,E09 Forum
+E09-S02-T1,E09-S02,"Comment domain, CommentRepository, CommentService (create/list), CommentController, CommentAdded; increment comment_count",BE,0.75,E09-S01-T3,B,Must,M2 Community,E09 Forum
+E09-S02-T2,E09-S02,"Comments component (thread with replies, reply box, counts)",FE,1.5,"T1 (contract), E09-S01-T5",B,Must,M2 Community,E09 Forum
+E09-S03-T1,E09-S03,"Reaction entity, ReactionRepository (counts, mine, upsert, remove), ReactionService, ReactionController (posts and comments), GET /api/reactions",BE,0.5,E09-S01-T2,B,Must,M2 Community,E09 Forum
+E09-S03-T2,E09-S03,"Reactions bar (optimistic toggle, picker from /api/reactions) on posts and comments",FE,1,"T1 (contract), E09-S01-T5",B,Must,M2 Community,E09 Forum
+E09-S04-T1,E09-S04,"Edit/delete post and comment, pin/unpin endpoints with author/moderator rules",BE,0.75,E09-S02,B,Should,M4 Lifecycle,E09 Forum
+E09-S04-T2,E09-S04,"Post and comment action menus, edit dialog, tombstone rendering",FE,1,T1,B,Should,M4 Lifecycle,E09 Forum
+E09-S05-T1,E09-S05,FeedController + PostRepository.findFeedPage,BE,0.5,E09-S01-T4,B,Should,M3 Calendar,E09 Forum
+E09-S05-T2,E09-S05,Feed section on ClubHome (reuses PostCard),FE,0.5,"T1, E04-S03-T2",B,Should,M3 Calendar,E09 Forum
+E10-S01-T1,E10-S01,"WebSocketConfig, SubscriptionAuthorizationInterceptor, realtime.spi.SubscriptionAuthorizer, RealtimeProperties",BE,0.5,E02-S01-T5,B,Should,M3 Calendar,E10 Real-time & chat
+E10-S01-T2,E10-S01,"realtime.api.RealtimePublisher + RedisRealtimePublisher (after-commit), RedisRealtimeRelay, RealtimeRedisConfig, RealtimeEnvelope",BE,0.5,T1,B,Should,M3 Calendar,E10 Real-time & chat
+E10-S01-T3,E10-S01,"RealtimeProvider + useTopic (reconnect → invalidate queries), enabled when logged in",FE,0.75,E02-S03-T1,B,Should,M3 Calendar,E10 Real-time & chat
+E10-S01-T4,E10-S01,Verify /ws through nginx with 2 replicas (--scale backend=2) and later through Cloudflare,OPS,0.5,"T2, E16-S01",B,Should,M3 Calendar,E10 Real-time & chat
+E10-S02-T1,E10-S02,chat migration,DB,0.25,E01-S02,B,Should,M3 Calendar,E10 Real-time & chat
+E10-S02-T2,E10-S02,"ChatMessage, ChatMessageRepository, ChatService.send (idempotent nonce, media attach, push), history query, ChatTopicAuthorizer",BE,1,"T1, E10-S01, E05-S01",B,Should,M3 Calendar,E10 Real-time & chat
+E10-S02-T3,E10-S02,"ChatMessageController (send, history, edit, delete)",BE,0.5,T2,B,Should,M3 Calendar,E10 Real-time & chat
+E10-S02-T4,E10-S02,"ChatRoom, MessageList (infinite scroll up, auto-scroll), MessageComposer (optimistic send), useChatMessages",FE,2.5,"T3 (contract), E10-S01-T3",B,Should,M3 Calendar,E10 Real-time & chat
+E10-S03-T1,E10-S03,"ForumTopicAuthorizer + pushes in PostService, CommentService, ReactionService",BE,0.5,"E10-S01, E09-S03",B,Could,M3 Calendar,E10 Real-time & chat
+E10-S03-T2,E10-S03,"useTopic subscriptions in ChannelFeed and post detail, cache updates",FE,0.75,T1,B,Could,M3 Calendar,E10 Real-time & chat
+E11-S01-T1,E11-S01,calendar migration,DB,0.25,E01-S02,B,Must,M3 Calendar,E11 Calendar & events
+E11-S01-T2,E11-S01,ClubEvent domain + EventService (schedule/edit/cancel) + events,BE,0.75,"T1, E07-S01, E05-S01",B,Must,M3 Calendar,E11 Calendar & events
+E11-S01-T3,E11-S01,"ClubEventController (POST /api/clubs/{id}/events, GET/PATCH /api/events/{id}, cancel)",BE,0.5,T2,B,Must,M3 Calendar,E11 Calendar & events
+E11-S01-T4,E11-S01,"EventDialog (space selector with audience hint, date/time pickers, optional cover upload) and EventPage",FE,1.75,T3 (contract),B,Must,M3 Calendar,E11 Calendar & events
+E11-S02-T1,E11-S02,"CalendarQueryService (range queries, filterReadableSpaces, batch decoration) + CalendarController (/api/calendar, /api/clubs/{id}/events); bind from/to as OffsetDateTime",BE,1,E11-S01-T2,B,Must,M3 Calendar,E11 Calendar & events
+E11-S02-T2,E11-S02,CampusCalendarPage (All/My clubs toggle) and ClubCalendarPage with FullCalendar 6,FE,1.75,T1 (contract),B,Must,M3 Calendar,E11 Calendar & events
+E11-S03-T1,E11-S03,"Rsvp entity, RsvpService, RsvpController, calendar.api.RsvpQuery",BE,0.5,E11-S01,B,Should,M3 Calendar,E11 Calendar & events
+E11-S03-T2,E11-S03,RsvpButtons on EventPage and calendar popover; attendees list,FE,1,T1,B,Should,M3 Calendar,E11 Calendar & events
+E11-S04-T1,E11-S04,Reminder creation in EventService + ReminderScheduler,BE,0.75,"E11-S03, E12-S01",B,Could,M5 Ship,E11 Calendar & events
+E11-S05-T1,E11-S05,"FeedTokenService, IcalFeedService (biweekly), FeedTokenController, IcalFeedController",BE,1,E11-S02,B,Could,M5 Ship,E11 Calendar & events
+E11-S05-T2,E11-S05,FeedSubscribeDialog in /settings and on the campus calendar,FE,0.5,T1,B,Could,M5 Ship,E11 Calendar & events
+E11-S06-T1,E11-S06,ClubArchivedListener in calendar,BE,0.25,"E11-S01, E14-S01-T1",B,Must,M4 Lifecycle,E11 Calendar & events
+E12-S01-T1,E12-S01,notification migration (incl. email outbox columns),DB,0.25,E01-S02,B,Should,M3 Calendar,E12 Notifications & email
+E12-S01-T2,E12-S01,"NotificationType, Notification, NotificationPreference entities; PreferenceService.effective; NotificationDispatcher (batch insert, dedup, after-commit push)",BE,0.75,"T1, E10-S01-T2",B,Should,M3 Calendar,E12 Notifications & email
+E12-S01-T3,E12-S01,"Listeners: ClubNotificationListener, MembershipNotificationListener, ForumNotificationListener, CalendarNotificationListener",BE,1.25,T2 + source events,B,Should,M3 Calendar,E12 Notifications & email
+E12-S01-T4,E12-S01,"NotificationController (inbox, unread count, read, read-all)",BE,0.5,T2,B,Should,M3 Calendar,E12 Notifications & email
+E12-S01-T5,E12-S01,"NotificationBell (live count), dropdown, NotificationsPage, PostRedirectPage",FE,2,"T4 (contract), E10-S01-T3",B,Should,M3 Calendar,E12 Notifications & email
+E12-S02-T1,E12-S02,PreferenceService.allFor/save + PreferenceController,BE,0.5,E12-S01-T2,B,Should,M4 Lifecycle,E12 Notifications & email
+E12-S02-T2,E12-S02,PreferencesForm (type × in-app/email matrix) in /settings,FE,1,T1,B,Should,M4 Lifecycle,E12 Notifications & email
+E12-S03-T1,E12-S03,"Start on day 1: Resend account, add domain 42clubroom.ensui.dev, DNS records in Cloudflare, API key, .env values",OPS,0.5,,B,Should,M4 Lifecycle,E12 Notifications & email
+E12-S03-T2,E12-S03,"EmailSender port, OutgoingEmail, EmailDeliveryException, SmtpEmailSender, LoggingEmailSender, AppMailProperties",BE,0.5,E01-S02,B,Should,M4 Lifecycle,E12 Notifications & email
+E12-S03-T3,E12-S03,"EmailDispatchJob (claim with backoff, send, record outcome)",BE,0.5,"T2, E12-S01-T2",B,Should,M4 Lifecycle,E12 Notifications & email
+E13-S01-T1,E13-S01,"OwnershipService (invite, accept, decline, revoke, step-down with findSystemRoleForUpdate) + events",BE,1,E07-S01,A,Must,M4 Lifecycle,E13 Governance
+E13-S01-T2,E13-S01,"OwnershipController, GET /api/me/ownership-invitations, AdminOwnershipController (assign/remove owner)",BE,0.75,T1,A,Must,M4 Lifecycle,E13 Governance
+E13-S01-T3,E13-S01,InvitationExpiryJob (hourly bulk expiry),BE,0.25,T1,A,Must,M4 Lifecycle,E13 Governance
+E13-S01-T4,E13-S01,"OwnershipPanel (owners list, invite co-owner via member/user search, ""Transfer ownership"", step down with explanation) + invitation inbox (accept/decline)",FE,2,"T2, E02-S04",C,Must,M4 Lifecycle,E13 Governance
+E13-S02-T1,E13-S02,"RoleService (create/update/delete, assign roles to a member, anti-escalation), RoleController, GET /api/permissions (with descriptions), MemberRolesChanged",BE,1.25,E07-S01,A,Should,M4 Lifecycle,E13 Governance
+E13-S02-T2,E13-S02,RolesEditor (permission checkboxes with descriptions; unheld permissions disabled) + role assignment on MembersPage,FE,2.5,"T1, E07-S04",C,Should,M4 Lifecycle,E13 Governance
+E13-S03-T1,E13-S03,"groups migration, Group/GroupMember, repositories, ClubGroupService, ClubGroupController, GroupQueryService (replaces the temporary implementation), GroupDeleted",BE,1.25,"E07-S01, E05-S01-T5",A,Should,M4 Lifecycle,E13 Governance
+E13-S03-T2,E13-S03,MembershipEndedListener (group) + GroupDeletedListener (space),BE,0.5,T1,A,Should,M4 Lifecycle,E13 Governance
+E13-S03-T3,E13-S03,GroupsSettings + group picker used by AccessRuleEditor,FE,1.5,T1,C,Should,M4 Lifecycle,E13 Governance
+E13-S04-T1,E13-S04,CampusSyncRules + CampusGroupSyncListener (UserProfileSynced),BE,0.75,"E13-S03-T1, E02-S01-T4",A,Could,M5 Ship,E13 Governance
+E14-S01-T1,E14-S01,"ClubService.archive + admin endpoint (ClubArchived, ClubProfileUpdated)",BE,0.25,E04-S02,A,Must,M4 Lifecycle,E14 Archival & history
+E14-S01-T2,E14-S01,ClubLifecycleListener.on(ClubArchived) in membership (bulk cancel/expire),BE,0.25,"T1, E07-S01",A,Must,M4 Lifecycle,E14 Archival & history
+E14-S01-T3,E14-S01,"Integration test: in an archived club, post / join / create event are rejected; reading still works",TEST,0.75,"T1, E09-S01, E07-S02",A,Must,M4 Lifecycle,E14 Archival & history
+E14-S01-T4,E14-S01,"ArchivedBanner, read-only states (composers hidden, join disabled), admin ""Archive club"" with reason dialog",FE,1.25,T1,C,Must,M4 Lifecycle,E14 Archival & history
+E14-S02-T1,E14-S02,"RevivalRequest domain, RevivalService (request/approve/reject), RevivalController, admin revival endpoints",BE,0.75,E14-S01,A,Should,M4 Lifecycle,E14 Archival & history
+E14-S02-T2,E14-S02,ClubLifecycleListener.on(ClubRevived) in membership (R-05),BE,0.25,"T1, E07-S01",A,Should,M4 Lifecycle,E14 Archival & history
+E14-S02-T3,E14-S02,RevivalDialog on archived clubs + RevivalQueuePage in the admin console,FE,1.5,T1,C,Should,M4 Lifecycle,E14 Archival & history
+E14-S03-T1,E14-S03,"history migration, TimelineEntry, TimelineProjector (club + owner events), TimelineQueryService, TimelineController",BE,1,"E04-S02, E13-S01",A,Must,M4 Lifecycle,E14 Archival & history
+E14-S03-T2,E14-S03,"Verify era read-only rules in forum and chat (ChannelAccess.isCurrentEra), add the missing checks",BE,0.5,"E09-S02, E10-S02",A,Must,M4 Lifecycle,E14 Archival & history
+E14-S03-T3,E14-S03,"ClubHistoryPage: EraSwitcher, Timeline, feed by era (reuses ChannelFeed with era)",FE,2,"T1, E09-S01-T5",C,Must,M4 Lifecycle,E14 Archival & history
+E15-S01-T1,E15-S01,"AdminLayout (side nav, pending badges), RequireAdmin route group, AdminClubsPage (all clubs by status, links to archive)",FE,0.75,"E03-S01, E02-S03-T1",C,Must,M1 Clubs exist,E15 Admin console
+E15-S02-T1,E15-S02,"LocalAccountService, AdminUserController, SessionRevocationService",BE,1,E02-S02,A,Should,M4 Lifecycle,E15 Admin console
+E15-S02-T2,E15-S02,"UsersPage (search, create local account dialog, role/status toggles, reset password)",FE,1.75,"T1, E15-S01",C,Should,M4 Lifecycle,E15 Admin console
+E15-S02-T3,E15-S02,PUT /api/me/password + password section in /settings (local accounts only),BE+FE,0.75,T1,A + C,Should,M4 Lifecycle,E15 Admin console
+E15-S03-T1,E15-S03,"CampusGroupService, AdminCampusGroupController, GET /api/campus-groups",BE,0.75,E13-S03-T1,A,Could,M5 Ship,E15 Admin console
+E15-S03-T2,E15-S03,CampusGroupsPage,FE,1.25,T1,C,Could,M5 Ship,E15 Admin console
+E15-S04-T1,E15-S04,GET /api/admin/ops (queries from 09-deployment §12) + card in the admin home,BE+FE,1,E12-S03,A + C,Could,M5 Ship,E15 Admin console
+E16-S01-T1,E16-S01,"backend/Dockerfile (multi-stage, layered)",OPS,0.5,E01-S02,A,Must,M1 Clubs exist,E16 Deploy & submission
+E16-S01-T2,E16-S01,frontend/Dockerfile + frontend/nginx/default.conf (Cloudflare-aware),OPS,0.5,E01-S03,A,Must,M1 Clubs exist,E16 Deploy & submission
+E16-S01-T3,E16-S01,"compose.prod.yaml; local prod-like run; smoke test (login, upload, /ws)",OPS,0.5,"T1, T2",A,Must,M1 Clubs exist,E16 Deploy & submission
+E16-S02-T1,E16-S02,"Cloudflare: public hostname (option A or B), cache bypass rules, Rocket Loader off; .env with APP_PUBLIC_URL=https://42clubroom.ensui.dev, HTTP_BIND",OPS,0.5,E16-S01,B,Must,M1 Clubs exist,E16 Deploy & submission
+E16-S02-T2,E16-S02,"Smoke test through Cloudflare: 42 login, /ws, upload, CF-Connecting-IP in nginx logs",OPS,0.5,T1,A,Must,M1 Clubs exist,E16 Deploy & submission
+E16-S02-T3,E16-S02,deploy/deploy.sh redeploy script,OPS,0.5,T1,A,Must,M1 Clubs exist,E16 Deploy & submission
+E16-S03-T1,E16-S03,"@Profile(""demo"") seeders per module (users alice/bob/carol/dave, 6 clubs, posts, chat, events, archived club with eras)",BE,2,features merged,A,Should,M5 Ship,E16 Deploy & submission
+E16-S04-T1,E16-S04,"Scale, restart the proxy, verify with logs; script the demo steps",OPS,0.5,"E10-S02, E16-S01",A,Could,M5 Ship,E16 Deploy & submission
+E16-S05-T1,E16-S05,Write UNIX_CLUB/README.md from the template,DOC,1.5,features merged,A + B + C,Must,M5 Ship,E16 Deploy & submission
+E16-S05-T2,E16-S05,"Screenshots and a short GIF of the ""join in 3 clicks"" flow",DOC,0.5,E16-S02,A + B + C,Must,M5 Ship,E16 Deploy & submission
+E16-S05-T3,E16-S05,"Final checks (diff only UNIX_CLUB/, .env absent, build from clean clone) + open the MR",OPS,0.25,T1,A,Must,M5 Ship,E16 Deploy & submission
+E16-S06-T1,E16-S06,Rehearse the demo script twice; fix blockers,DOC,1,"E16-S02, E16-S03",A + B + C,Must,M5 Ship,E16 Deploy & submission
+E16-S06-T2,E16-S06,Slides (use target/spring-modulith-docs diagrams and the decision log),DOC,1.5,,A + B + C,Must,M5 Ship,E16 Deploy & submission
+E16-S07-T1,E16-S07,"Playwright setup + ""join and post"" test",TEST,2,"E09-S01, E07-S02",C,Could,M5 Ship,E16 Deploy & submission

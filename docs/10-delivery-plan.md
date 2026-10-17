@@ -12,6 +12,8 @@ Each person owns whole modules end-to-end, which minimises merge conflicts and k
 | **B: Community and communication** | Content, real-time, notifications | `space`, `media`, `forum`, `chat`, `realtime`, `notification`, `calendar` | Help C with `chat` and `calendar` from day 2 |
 | **C: Frontend and UX** | Shell, design system, all main pages | — | `app` shell, theme, `auth`, `discovery`, `clubs`, `membership` (join), `spaces`, `forum`, `notifications`, `history` |
 
+> **Updated plan:** the full backlog with estimates ([implementation/backlog](implementation/backlog/README.md)) shows the frontend would be the bottleneck with this split (~40 h of Must work for C alone). The backlog therefore proposes **B working full-stack on B's epics** (spaces sidebar, media, forum, calendar UIs) and taking the discovery backend, which balances Must work to ~28 h per person. See [backlog §5](implementation/backlog/README.md#5-suggested-assignment).
+
 **Contract-first rule:** a backend owner publishes the controller and DTO stubs (returning fake data if needed) **before** implementing. C regenerates types (`npm run api:types`) and builds UI in parallel.
 
 ## 2. Timeline

@@ -22,6 +22,7 @@ This folder is the **high-level design** of the whole application: domain, archi
 | 8 | [08-frontend.md](08-frontend.md) | React architecture, feature modules, routing, state, API client, real-time client, UX flows, design system. |
 | 9 | [09-deployment.md](09-deployment.md) | Dockerfiles, docker compose (dev and prod), nginx, SeaweedFS, environment variables, scaling. |
 | 10 | [10-delivery-plan.md](10-delivery-plan.md) | Suggested 2-day build order and 3-person split, MVP versus stretch goals, demo script. |
+| ★ | [implementation/](implementation/README.md) | **Implementation collection**: step-by-step guide, contribution rules (branches, Conventional Commits, PRs), and the full backlog of epics, stories and tasks with estimates and per-person queues. |
 
 ### Backend modules
 
