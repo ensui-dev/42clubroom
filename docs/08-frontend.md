@@ -6,12 +6,12 @@
 |---------|--------|---------|
 | UI library | React | 19.3 |
 | Build / dev server | Vite (+ `@vitejs/plugin-react`) | 8.x (plugin 6.x) |
-| Language | TypeScript | 5.x |
+| Language | TypeScript (the version scaffolded by `create-vite@9`) | 6.0 |
 | Routing | React Router (data router), **pinned to 7.x** (R-14) | 7.20 |
 | Server state | TanStack Query | 5.x |
 | Client/UI state | Zustand (only for UI state: sidebar, drafts) | 5.x |
 | Forms and validation | React Hook Form + Zod + `@hookform/resolvers` | 7.x / 4.x / 5.x |
-| API types and client | `openapi-typescript` (codegen) + `openapi-fetch` | 7.13 / 0.17 |
+| API types and client | `openapi-typescript` (codegen, run via `npx` because it still requires TypeScript 5) + `openapi-fetch` | 7.13 / 0.17 |
 | Real-time | `@stomp/stompjs` | 7.5 |
 | Calendar | FullCalendar, **pinned to 6.x** (R-14) | 6.1.22 |
 | Styling | Tailwind CSS v4 (`@tailwindcss/vite`) + shadcn/ui components (Radix primitives, copied into the repo) + `lucide-react` icons | 4.3 |
@@ -160,7 +160,7 @@ Sidebar collapsed, composer drafts per channel, theme. Nothing that comes from t
 **Type generation** (backend running locally):
 
 ```bash
-npm run api:types   # openapi-typescript http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts
+npm run api:types   # npx openapi-typescript@7.13.0 http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts
 ```
 
 ```ts
@@ -785,7 +785,7 @@ export function CampusCalendar({ scope }: { scope: "all" | "mine" }) {
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest",
-    "api:types": "openapi-typescript http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts"
+    "api:types": "npx --yes openapi-typescript@7.13.0 http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts"
   },
   "dependencies": {
     "@fullcalendar/core": "6.1.22",
@@ -803,7 +803,7 @@ export function CampusCalendar({ scope }: { scope: "all" | "mine" }) {
     "react-dom": "^19.3.1",
     "react-hook-form": "^7.90.0",
     "react-markdown": "^10.1.0",
-    "react-router": "^7.20.5",
+    "react-router": "^7.18.4",
     "rehype-sanitize": "^6.0.0",
     "zod": "^4.6.7",
     "zustand": "^5.0.15"
@@ -819,9 +819,8 @@ export function CampusCalendar({ scope }: { scope: "all" | "mine" }) {
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.13.0",
     "jsdom": "^30.1.3",
-    "openapi-typescript": "^7.13.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.0",
+    "typescript": "~6.0.2",
     "typescript-eslint": "^8.71.2",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
@@ -876,7 +875,6 @@ export default defineConfig({
     "noUncheckedIndexedAccess": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
-    "baseUrl": ".",
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src"]

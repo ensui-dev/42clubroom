@@ -153,7 +153,8 @@ services:
       - seaweed:/data
       - ./deploy/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:9333/cluster/status || exit 1"]
+      # 127.0.0.1, not localhost: in Alpine "localhost" resolves to IPv6 ::1, where weed does not listen
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:9333/cluster/status || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 20

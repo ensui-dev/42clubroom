@@ -18,7 +18,7 @@ npm install
 ## 2. Dependencies (versions from the design, R-14)
 
 ```bash
-npm i react@^19.3.1 react-dom@^19.3.1 react-router@^7.20.5 \
+npm i react@^19.3.1 react-dom@^19.3.1 react-router@^7.18.4 \
       @tanstack/react-query@^5.104.3 zustand@^5.0.15 \
       react-hook-form@^7.90.0 zod@^4.6.7 @hookform/resolvers@^5.9.2 \
       @stomp/stompjs@^7.5.0 openapi-fetch@^0.17.0 \
@@ -26,14 +26,23 @@ npm i react@^19.3.1 react-dom@^19.3.1 react-router@^7.20.5 \
       @fullcalendar/core@6.1.22 @fullcalendar/react@6.1.22 @fullcalendar/daygrid@6.1.22 \
       @fullcalendar/timegrid@6.1.22 @fullcalendar/list@6.1.22 @fullcalendar/interaction@6.1.22
 
-npm i -D tailwindcss@^4.3.3 @tailwindcss/vite@^4.3.3 openapi-typescript@^7.13.0 \
+npm i -D tailwindcss@^4.3.3 @tailwindcss/vite@^4.3.3 \
          vitest@^5.0.5 jsdom@^30.1.3 @testing-library/react@^16.3.3 \
          typescript-eslint@^8.71.2 eslint-plugin-react-hooks@^7.1.1 globals@^17.13.0
 ```
 
+> **TypeScript 6 and the type generator.** `create-vite@9` scaffolds **TypeScript 6.0**; keep it (typescript-eslint supports it). `openapi-typescript` still declares `typescript@^5` as a peer, so installing it as a dev dependency fails with `ERESOLVE`. Don't install it: the `api:types` script runs a pinned version through `npx`, which gets its own TypeScript 5 in an isolated cache:
+>
+> ```bash
+> npm pkg set scripts.test="vitest" \
+>   scripts.api:types="npx --yes openapi-typescript@7.13.0 http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts"
+> ```
+>
+> **npm 12 note:** `npm install --dry-run` (and `--package-lock-only`) fails with `EALLOWREMOTE` on `@tailwindcss/oxide-wasm32-wasi`. npm 12 opens packages with bundled dependencies by tarball URL in those modes, and its default `allow-remote=none` blocks the URL. Normal `npm install` / `npm ci` are not affected.
+
 > **Pinned on purpose:** React Router **7** and FullCalendar **6** (their newer majors changed APIs; all design snippets use these). Don't run `npm update` across majors during the hackathon.
 
-Add the scripts from [08-frontend §12.1](../../08-frontend.md) (`api:types`, `test`, `lint`).
+The scripts (`api:types`, `test`, `lint`) are listed in [08-frontend §12.1](../../08-frontend.md); the `npm pkg set` command above adds the two missing ones.
 
 ## 3. Configuration
 
@@ -68,10 +77,10 @@ Add the scripts from [08-frontend §12.1](../../08-frontend.md) (`api:types`, `t
    });
    ```
 
-2. **Path alias in TypeScript:** the Vite template splits configs (`tsconfig.json` → `tsconfig.app.json`, `tsconfig.node.json`). Add to **both** `tsconfig.json` and `tsconfig.app.json`:
+2. **Path alias in TypeScript:** the Vite template splits configs (`tsconfig.json` → `tsconfig.app.json`, `tsconfig.node.json`). Add to **both** `tsconfig.json` and `tsconfig.app.json`, and **don't add `baseUrl`**: TypeScript 6 deprecates it (`TS5101`, the build fails), and `paths` resolves relative to the tsconfig file without it:
 
    ```json
-   { "compilerOptions": { "baseUrl": ".", "paths": { "@/*": ["./src/*"] } } }
+   { "compilerOptions": { "paths": { "@/*": ["./src/*"] } } }
    ```
 
 3. **ESLint:** replace `eslint.config.js` with [08-frontend §12.4](../../08-frontend.md) (feature boundaries).
