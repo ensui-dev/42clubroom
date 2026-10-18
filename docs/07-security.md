@@ -65,8 +65,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -79,6 +81,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 class SecurityConfig {
 
     /** API and WebSocket calls get a 401 instead of a redirect to the 42 login page. */
@@ -92,31 +95,32 @@ class SecurityConfig {
                                             FortyTwoOAuth2UserService fortyTwoUserService,
                                             SecurityContextRepository securityContextRepository) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/public/**", "/api/auth/login", "/api/auth/csrf").permitAll()
-                        .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
-                        .requestMatchers("/ical/**").permitAll()                         // token is the credential
-                        .requestMatchers("/actuator/health/**", "/actuator/info").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // disabled in prod
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**", "/ws", "/ws/**").authenticated()
-                        .anyRequest().denyAll())
-                .securityContext(ctx -> ctx.securityContextRepository(securityContextRepository))
-                .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
-                .oauth2Login(oauth -> oauth
-                        .userInfoEndpoint(userInfo -> userInfo.userService(fortyTwoUserService))
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/login?error"))
-                .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")                                   // POST + CSRF
-                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT))
-                        .deleteCookies("SESSION"))
-                .exceptionHandling(ex -> ex
-                        .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), API_OR_WS))
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable());
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**", "/api/auth/login", "/api/auth/csrf").permitAll()
+                .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
+                .requestMatchers("/ical/**").permitAll()                         // token is the credential
+                .requestMatchers("/error", "/actuator/health/**", "/actuator/info").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // disabled in prod
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/**", "/ws", "/ws/**").authenticated()
+                .anyRequest().denyAll())
+            .securityContext(ctx -> ctx.securityContextRepository(securityContextRepository))
+            // SPA-friendly CSRF: the XSRF-TOKEN cookie is readable by the frontend and echoed in X-XSRF-TOKEN.
+            .csrf(csrf -> csrf
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
+            .oauth2Login(oauth -> oauth
+                .userInfoEndpoint(userInfo -> userInfo.userService(fortyTwoUserService))
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error"))
+            .logout(logout -> logout
+                .logoutUrl("/api/auth/logout")                                   // POST + CSRF
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT))
+                .deleteCookies("SESSION"))
+            .exceptionHandling(ex -> ex
+                .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), API_OR_WS))
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
@@ -130,15 +134,18 @@ class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();   // {bcrypt} by default
     }
 
+    /** Checks local username/password logins (AuthController). 42 logins go through oauth2Login above. */
     @Bean
     AuthenticationManager localAuthenticationManager(LocalUserDetailsService userDetailsService,
                                                      PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(passwordEncoder);
-        provider.setUserDetailsService(userDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(provider);
     }
 }
 ```
+
+Compared with Spring Security's defaults: `/error` stays public so error responses keep their status under `denyAll`, and the local `DaoAuthenticationProvider` uses the Spring Security 6.5 API (`new DaoAuthenticationProvider(userDetailsService)` + `setPasswordEncoder`; the other constructor and `setUserDetailsService` are deprecated).
 
 ### 3.1 CSRF for a single-page app
 

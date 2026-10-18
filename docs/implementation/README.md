@@ -15,6 +15,7 @@ The **how** that goes with the design's **what**: a step-by-step implementation 
 | [guide/00-prerequisites-and-accounts.md](guide/00-prerequisites-and-accounts.md) | Tools, ports, external accounts with waiting times (42 OAuth, Resend DNS, Cloudflare), secrets. |
 | [guide/01-repository-bootstrap.md](guide/01-repository-bootstrap.md) | Create `UNIX_CLUB/main`, the team folder, hooks and local infrastructure. |
 | [guide/02-backend-foundation.md](guide/02-backend-foundation.md) | Spring Boot skeleton by hand (no Initializr for Boot 3.5), module skeleton script, smoke test, authentication. |
+| [guide/02a-authentication.md](guide/02a-authentication.md) | Login with 42 that stores users, local login with a bootstrap admin, logout, URL rules and `/api/me` (E02 backend), every file in full. |
 | [guide/03-frontend-foundation.md](guide/03-frontend-foundation.md) | Vite + React + Tailwind v4 + shadcn/ui, feature folders, typed API client, auth UI. |
 | [guide/04-module-recipe.md](guide/04-module-recipe.md) | The repeatable recipe for any story (backend and frontend steps), terminal API helper, common pitfalls. |
 | [guide/05-build-order.md](guide/05-build-order.md) | First three hours, milestone checkpoints M0–M5 with checklists, hand-offs between people, what to do when behind. |

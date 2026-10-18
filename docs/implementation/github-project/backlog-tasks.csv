@@ -3,11 +3,11 @@ E01-S01-T1,E01-S01,"Create UNIX_CLUB/main from main; add UNIX_CLUB/ with backend
 E01-S01-T2,E01-S01,"Add CONTRIBUTING.md and the 3 Git hooks (commit-msg, pre-commit, pre-push) in UNIX_CLUB/.githooks/",DOC,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
 E01-S01-T3,E01-S01,"Add compose.yaml, compose.dev.yaml, deploy/seaweedfs/s3.json, .env.example",OPS,0.75,T1,A,Must,M0 Skeleton + login,E01 Foundation
 E01-S01-T4,E01-S01,"Every developer: enable hooks, copy .env, start compose, confirm health; agree on the secret-sharing channel",OPS,0.25,"T2, T3",A,Must,M0 Skeleton + login,E01 Foundation
-E01-S02-T1,E01-S02,"pom.xml (Boot 3.5.16, Modulith 1.4.13 BOM, AWS SDK BOM), Maven wrapper 3.9.16, VclubroomApplication, application.yml, application-dev.yml, application-prod.yml",BE,0.75,E01-S01,A,Must,M0 Skeleton + login,E01 Foundation
-E01-S02-T2,E01-S02,"Shared kernel: Actor, AuthenticatedUser, error types + GlobalExceptionHandler, CursorPage, PageResponse, TimeCursor, TimeConfig, EventPublicationMaintenance",BE,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
-E01-S02-T3,E01-S02,"Base Flyway migration (schemas, pg_trgm, event_publication)",DB,0.25,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T1,E01-S02,"pom.xml (Boot 3.5.16, Modulith 1.4.13 BOM, AWS SDK BOM), Maven wrapper 3.9.16, ClubroomApplication, application.yml, application-dev.yml, application-prod.yml",BE,0.75,E01-S01,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T2,E01-S02,"Shared kernel: Actor, AuthenticatedUser, error types + GlobalExceptionHandler, CursorPage, PageResponse, TimeCursor, ClockConfig, EventPublicationMaintenance",BE,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T3,E01-S02,"Base Flyway migrations in db/migration/shared/ (schemas, pg_trgm, event_publication)",DB,0.25,T1,A,Must,M0 Skeleton + login,E01 Foundation
 E01-S02-T4,E01-S02,Run the module skeleton script (13 modules + named interfaces); add ModularityTests,BE,0.5,T1,A,Must,M0 Skeleton + login,E01 Foundation
-E01-S02-T5,E01-S02,"TestcontainersConfiguration + ApplicationSmokeTests (context loads, health UP)",TEST,0.5,T3,A,Must,M0 Skeleton + login,E01 Foundation
+E01-S02-T5,E01-S02,"TestcontainersConfiguration + ClubroomApplicationTests (context loads; health, API docs, CSRF, migrations)",TEST,0.5,T3,A,Must,M0 Skeleton + login,E01 Foundation
 E01-S02-T6,E01-S02,"Verify springdoc (/v3/api-docs, Swagger in dev) and actuator exposure",BE,0.25,T1,A,Must,M0 Skeleton + login,E01 Foundation
 E01-S03-T1,E01-S03,"npm create vite@9 (react-ts); pin dependencies to the versions in the design (react-router 7, FullCalendar 6, …)",FE,0.5,E01-S01,C,Must,M0 Skeleton + login,E01 Foundation
 E01-S03-T2,E01-S03,"@/ alias (tsconfig + Vite), Vite dev proxy (changeOrigin: false)",FE,0.5,T1,C,Must,M0 Skeleton + login,E01 Foundation

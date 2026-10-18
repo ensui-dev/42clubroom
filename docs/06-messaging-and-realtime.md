@@ -92,7 +92,7 @@ spring:
           enabled: false                              # table created by Flyway (04-database.md §3.1)
 ```
 
-`@ApplicationModuleListener` = `@Async` + `@Transactional(propagation = REQUIRES_NEW)` + `@TransactionalEventListener(AFTER_COMMIT)`. It requires `@EnableAsync` (on `VclubroomApplication`). With `spring.threads.virtual.enabled=true` the async executor uses virtual threads.
+`@ApplicationModuleListener` = `@Async` + `@Transactional(propagation = REQUIRES_NEW)` + `@TransactionalEventListener(AFTER_COMMIT)`. It requires `@EnableAsync` (on `ClubroomApplication`). With `spring.threads.virtual.enabled=true` the async executor uses virtual threads.
 
 ### 3.2 Maintenance job (resubmission + cleanup)
 

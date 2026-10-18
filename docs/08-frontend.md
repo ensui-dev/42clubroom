@@ -14,7 +14,7 @@
 | API types and client | `openapi-typescript` (codegen, run via `npx` because it still requires TypeScript 5) + `openapi-fetch` | 7.13 / 0.17 |
 | Real-time | `@stomp/stompjs` | 7.5 |
 | Calendar | FullCalendar, **pinned to 6.x** (R-14) | 6.1.22 |
-| Styling | Tailwind CSS v4 (`@tailwindcss/vite`) + shadcn/ui components (Radix primitives, copied into the repo) + `lucide-react` icons | 4.3 |
+| Styling | Tailwind CSS v4 (`@tailwindcss/vite`) + shadcn/ui components (**Base UI** primitives, **Nova** preset, copied into the repo) + `lucide-react` icons | 4.3 |
 | Markdown | `react-markdown` + `rehype-sanitize` | 10.x / 6.x |
 | Tests | Vitest + Testing Library (+ MSW for API mocks, Playwright for the e2e "join a club" flow) | Vitest 5.x |
 | Lint | ESLint (flat config) + typescript-eslint + react-hooks rules | ESLint 10 |
@@ -533,7 +533,7 @@ Goal (Presentation criterion): **one consistent theme**, so every page is built 
 - **shadcn/ui** components copied into `src/shared/ui` (Button, Card, Dialog, DropdownMenu, Tabs, Tooltip, Badge, Avatar, Input, Textarea, Select, Switch, Toast). Every feature uses these, never ad-hoc styles.
 - **Tokens** as CSS variables (light and dark), consumed by Tailwind utilities.
 - **Layout primitives**: `PageHeader`, `Section`, `EmptyState`, `StatusBadge` (ACTIVE / ARCHIVED / PENDING), `ClubAvatar`.
-- **Accessibility**: WCAG AA contrast, visible focus rings (`ring` token), keyboard-navigable menus (Radix), `prefers-reduced-motion` respected.
+- **Accessibility**: WCAG AA contrast, visible focus rings (`ring` token), keyboard-navigable menus (Base UI), `prefers-reduced-motion` respected.
 - **Dates** formatted with `Intl.DateTimeFormat("pt-PT" | "en-GB", { timeZone: "Europe/Lisbon" })` in `shared/lib/dates.ts`.
 
 ```css
@@ -784,7 +784,8 @@ export function CampusCalendar({ scope }: { scope: "all" | "mine" }) {
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
     "api:types": "npx --yes openapi-typescript@7.13.0 http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts"
   },
   "dependencies": {
@@ -812,6 +813,7 @@ export function CampusCalendar({ scope }: { scope: "all" | "mine" }) {
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/react": "^16.3.3",
+    "@types/node": "^24.13.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",

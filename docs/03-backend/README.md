@@ -48,7 +48,8 @@ UNIX_CLUB/                         # submission directory: Hackathon_SA_2026/UNI
 │       │   ├── application-dev.yml
 │       │   ├── application-prod.yml
 │       │   └── db/migration/
-│       │       ├── V202610170900__create_schemas.sql
+│       │       ├── shared/V202610171200__modulith_event_publication.sql
+│       │       ├── shared/V202610172111__module_schemas_and_extensions.sql
 │       │       ├── identity/V202610170910__identity_init.sql
 │       │       ├── club/V202610170920__club_init.sql
 │       │       └── ... one folder per module (see 04-database.md)
@@ -64,10 +65,10 @@ UNIX_CLUB/                         # submission directory: Hackathon_SA_2026/UNI
 
 ```text
 pt.vclubroom
-├── VclubroomApplication.java
+├── ClubroomApplication.java
 ├── shared/                                  OPEN module (shared kernel)
 │   ├── package-info.java
-│   ├── config/TimeConfig.java
+│   ├── config/{ClockConfig, OpenApiConfig, EventPublicationMaintenance}.java
 │   ├── error/{DomainException, NotFoundException, ForbiddenException, ConflictException,
 │   │          BusinessRuleException, InvalidRequestException, GlobalExceptionHandler}.java
 │   ├── security/{Actor, AuthenticatedUser}.java
@@ -502,13 +503,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@ConfigurationPropertiesScan            // picks up every @ConfigurationProperties record in all modules
-@EnableAsync                            // required by @ApplicationModuleListener (async after-commit listeners)
-@EnableScheduling                       // reminders, cleanup and expiry jobs
-public class VclubroomApplication {
+@ConfigurationPropertiesScan
+@EnableAsync        // @ApplicationModuleListener runs asynchronously after commit
+@EnableScheduling   // reminders, email outbox, event-publication maintenance jobs
+public class ClubroomApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(VclubroomApplication.class, args);
+        SpringApplication.run(ClubroomApplication.class, args);
     }
 }
 ```
@@ -520,10 +521,10 @@ import java.time.Clock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
-public class TimeConfig {
+/** One injectable clock so time-based rules (events, archival, handover) can be tested deterministically. */
+@Configuration
+class ClockConfig {
 
-    /** Every service takes time from this clock, so tests can freeze it. */
     @Bean
     Clock clock() {
         return Clock.systemUTC();
@@ -966,7 +967,7 @@ import org.springframework.modulith.docs.Documenter;
 
 class ModularityTests {
 
-    private static final ApplicationModules MODULES = ApplicationModules.of(VclubroomApplication.class);
+    private static final ApplicationModules MODULES = ApplicationModules.of(ClubroomApplication.class);
 
     @Test
     void modulesRespectTheirBoundaries() {

@@ -40,16 +40,16 @@
 
 **Acceptance criteria**
 - `./mvnw verify` is green, including `ModularityTests`.
-- The app starts against the compose services and `ApplicationSmokeTests` sees health `UP`. (`/actuator/health` and `/v3/api-docs` become publicly reachable once E02-S01-T5 adds `SecurityConfig`.)
+- The app starts against the compose services and `ClubroomApplicationTests` pass (health and API docs public, CSRF cookie, migrations).
 - All 13 modules exist as packages with their `package-info.java` and `allowedDependencies`.
 
 | Task | Description | Layer | Est (h) | Depends on | Design ref |
 |------|-------------|-------|--------:|-----------|------------|
-| E01-S02-T1 | `pom.xml` (Boot 3.5.16, Modulith 1.4.13 BOM, AWS SDK BOM), Maven wrapper 3.9.16, `VclubroomApplication`, `application.yml`, `application-dev.yml`, `application-prod.yml` | BE | 0.75 | E01-S01 | [03-backend §3–§5](../../03-backend/README.md) |
-| E01-S02-T2 | Shared kernel: `Actor`, `AuthenticatedUser`, error types + `GlobalExceptionHandler`, `CursorPage`, `PageResponse`, `TimeCursor`, `TimeConfig`, `EventPublicationMaintenance` | BE | 0.5 | T1 | [03-backend §6](../../03-backend/README.md), [06 §3.2](../../06-messaging-and-realtime.md) |
-| E01-S02-T3 | Base Flyway migration (schemas, `pg_trgm`, `event_publication`) | DB | 0.25 | T1 | [04-database §3.1](../../04-database.md) |
+| E01-S02-T1 | `pom.xml` (Boot 3.5.16, Modulith 1.4.13 BOM, AWS SDK BOM), Maven wrapper 3.9.16, `ClubroomApplication`, `application.yml`, `application-dev.yml`, `application-prod.yml` | BE | 0.75 | E01-S01 | [03-backend §3–§5](../../03-backend/README.md) |
+| E01-S02-T2 | Shared kernel: `Actor`, `AuthenticatedUser`, error types + `GlobalExceptionHandler`, `CursorPage`, `PageResponse`, `TimeCursor`, `ClockConfig`, `EventPublicationMaintenance` | BE | 0.5 | T1 | [03-backend §6](../../03-backend/README.md), [06 §3.2](../../06-messaging-and-realtime.md) |
+| E01-S02-T3 | Base Flyway migrations in `db/migration/shared/` (schemas, `pg_trgm`, `event_publication`) | DB | 0.25 | T1 | [04-database §3.1](../../04-database.md) |
 | E01-S02-T4 | Run the module skeleton script (13 modules + named interfaces); add `ModularityTests` | BE | 0.5 | T1 | [guide 02 §4](../guide/02-backend-foundation.md) |
-| E01-S02-T5 | `TestcontainersConfiguration` + `ApplicationSmokeTests` (context loads, health UP) | TEST | 0.5 | T3 | [guide 02 §5](../guide/02-backend-foundation.md) |
+| E01-S02-T5 | `TestcontainersConfiguration` + `ClubroomApplicationTests` (context loads; health, API docs, CSRF, migrations) | TEST | 0.5 | T3 | [guide 02 §5](../guide/02-backend-foundation.md) |
 | E01-S02-T6 | Verify springdoc (`/v3/api-docs`, Swagger in dev) and actuator exposure | BE | 0.25 | T1 | [03-backend §4.1](../../03-backend/README.md) |
 
 **Branch:** `UNIX_CLUB/dev/build(E01-S02)/backend-skeleton`

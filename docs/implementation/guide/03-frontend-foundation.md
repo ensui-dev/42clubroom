@@ -26,7 +26,7 @@ npm i react@^19.3.1 react-dom@^19.3.1 react-router@^7.18.4 \
       @fullcalendar/core@6.1.22 @fullcalendar/react@6.1.22 @fullcalendar/daygrid@6.1.22 \
       @fullcalendar/timegrid@6.1.22 @fullcalendar/list@6.1.22 @fullcalendar/interaction@6.1.22
 
-npm i -D tailwindcss@^4.3.3 @tailwindcss/vite@^4.3.3 \
+npm i -D tailwindcss@^4.3.3 @tailwindcss/vite@^4.3.3 @types/node@^24.13.3 \
          vitest@^5.0.5 jsdom@^30.1.3 @testing-library/react@^16.3.3 \
          typescript-eslint@^8.71.2 eslint-plugin-react-hooks@^7.1.1 globals@^17.13.0
 ```
@@ -34,7 +34,7 @@ npm i -D tailwindcss@^4.3.3 @tailwindcss/vite@^4.3.3 \
 > **TypeScript 6 and the type generator.** `create-vite@9` scaffolds **TypeScript 6.0**; keep it (typescript-eslint supports it). `openapi-typescript` still declares `typescript@^5` as a peer, so installing it as a dev dependency fails with `ERESOLVE`. Don't install it: the `api:types` script runs a pinned version through `npx`, which gets its own TypeScript 5 in an isolated cache:
 >
 > ```bash
-> npm pkg set scripts.test="vitest" \
+> npm pkg set scripts.test="vitest run --passWithNoTests" scripts.test:watch="vitest" \
 >   scripts.api:types="npx --yes openapi-typescript@7.13.0 http://localhost:8080/v3/api-docs -o src/shared/api/schema.d.ts"
 > ```
 >
@@ -87,14 +87,23 @@ The scripts (`api:types`, `test`, `lint`) are listed in [08-frontend §12.1](../
 
 ## 4. Tailwind v4 + shadcn/ui + theme
 
+First make Tailwind v4 detectable. shadcn's preflight fails with *"No Tailwind CSS configuration found"* until a CSS file imports Tailwind. Replace the template's demo stylesheet:
+
 ```bash
-npx shadcn@4 init          # detects Vite + Tailwind v4; base colour "neutral"
+printf '@import "tailwindcss";\n' > src/index.css
 ```
 
-Then point shadcn at our folders in `components.json`:
+Then:
+
+```bash
+npx shadcn@4 init          # component library: Base UI · preset: Nova (Lucide icons + Geist font)
+```
+
+Base UI components use a `render` prop where the Radix flavour uses `asChild`; keep that in mind when copying examples from the web. Then point shadcn at our folders in `components.json`:
 
 ```json
 {
+  "tailwind": { "css": "src/app/theme.css" },
   "aliases": {
     "components": "@/shared/ui",
     "ui": "@/shared/ui",
@@ -105,7 +114,19 @@ Then point shadcn at our folders in `components.json`:
 }
 ```
 
-- Move the CSS that shadcn generated to `src/app/theme.css` and **merge** the design tokens from [08-frontend §10](../../08-frontend.md) (keep one `:root` and one `.dark` block). Import it once in `src/main.tsx`; delete the template's `index.css` and `App.css`.
+(Edit only these keys and keep the rest of the generated file. `tailwind.css` must follow the CSS when it moves to `src/app/theme.css`, or later `shadcn add` runs write their CSS variables into a deleted file. Recent shadcn versions add the official `cn` package, a drop-in replacement for clsx + tailwind-merge: `utils.ts` just re-exports it.)
+
+- `init` created files at its default locations (`src/lib/utils.ts`, `src/components/ui/button.tsx`). Move them to match the aliases:
+
+  ```bash
+  mkdir -p src/shared/lib src/shared/ui src/app
+  mv src/lib/utils.ts src/shared/lib/utils.ts
+  mv src/components/ui/*.tsx src/shared/ui/
+  mv src/index.css src/app/theme.css
+  rmdir src/lib src/components/ui src/components
+  ```
+
+- In `src/app/theme.css` (the CSS shadcn generated), **merge** the design tokens from [08-frontend §10](../../08-frontend.md) (keep one `:root` and one `.dark` block). Change the token values (e.g. `--primary`, `--ring`, `--accent`) but keep shadcn's `@import` lines and extra tokens (sidebar, chart). It's imported once in `src/main.tsx` (§6).
 - Add the components used everywhere (E03-S02-T1):
 
 ```bash
@@ -126,7 +147,17 @@ Structure and rules: [08-frontend §2–§3](../../08-frontend.md). Inside a fea
 
 ## 6. API pipeline (E01-S04)
 
-With the backend running (guide 02 §6):
+`npm run api:types` reads the backend's OpenAPI document, so it needs **E01-S02** (backend skeleton) running (guide 02 §6). Until then, create a placeholder so the client compiles, and replace it with the generated file as soon as the backend is up:
+
+```ts
+// src/shared/api/schema.d.ts: TEMPORARY placeholder until `npm run api:types` can run (E01-S04-T1)
+export interface paths {}
+export interface components {
+  schemas: Record<string, never>;
+}
+```
+
+With the backend running:
 
 ```bash
 npm run api:types                     # → src/shared/api/schema.d.ts (commit it)
@@ -172,6 +203,24 @@ createRoot(document.getElementById("root")!).render(
 );
 ```
 
+`main.tsx` imports `./app/router`, which §7 (E03-S01) fills in with the full route table. Create a placeholder now so the app builds:
+
+```tsx
+// src/app/router.tsx: placeholder, replaced by the full route table in E03-S01
+import { createBrowserRouter } from "react-router";
+
+export const router = createBrowserRouter([
+  { path: "*", element: <p className="p-8 text-2xl font-semibold">Virtual Clubroom</p> },
+]);
+```
+
+Then remove the Vite template leftovers and set the page title:
+
+```bash
+rm -f src/App.tsx src/App.css src/index.css src/assets/react.svg src/assets/vite.svg src/assets/hero.png public/icons.svg
+sed -i 's|<title>frontend</title>|<title>Virtual Clubroom</title>|' index.html
+```
+
 (`RealtimeProvider` is added inside `Providers` in E10-S01, enabled only when `useMe()` returns a user.)
 
 ## 7. Shell, design system, auth UI
@@ -186,7 +235,7 @@ In this order, following the backlog stories:
 
 ```bash
 npm run dev                     # http://localhost:5173
-npm run lint && npm test && npm run build
+npm run lint && npm test && npm run build      # npm test = vitest run --passWithNoTests
 ```
 
 - Open `http://localhost:5173/login` → **Login with 42** → you come back logged in (the backend must run with `APP_PUBLIC_URL=http://localhost:5173`, which `run-dev.sh` does).

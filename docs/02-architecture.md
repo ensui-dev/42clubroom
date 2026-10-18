@@ -336,7 +336,7 @@ flowchart LR
 
 ## 10. Maintainability practices
 
-1. **Module verification test.** `ApplicationModules.of(VclubroomApplication.class).verify()` fails the build on cycles or boundary violations.
+1. **Module verification test.** `ApplicationModules.of(ClubroomApplication.class).verify()` fails the build on cycles or boundary violations.
 2. **Generated architecture docs.** Spring Modulith's `Documenter` writes C4/PlantUML component diagrams and module canvases on every test run, so the documentation can't drift.
 3. **One template.** Every module has the same packages and naming (`XController`, `XService`, `XRepository`, `XListener`).
 4. **Contract-first frontend.** OpenAPI → TypeScript types; a renamed DTO field breaks the frontend build, not production.

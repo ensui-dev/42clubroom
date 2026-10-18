@@ -13,15 +13,16 @@ Backlog: **E01-S02**, then **E02-S01**, **E02-S02**, **E02-S04** (owner A). Time
 ```text
 UNIX_CLUB/backend/
 ├── pom.xml                                   ← copy from 03-backend/README.md §3
-├── src/main/java/pt/vclubroom/VclubroomApplication.java
+├── src/main/java/pt/vclubroom/ClubroomApplication.java
 ├── src/main/resources/application.yml        ← 03-backend/README.md §4.1
 ├── src/main/resources/application-dev.yml    ← §4.2
 ├── src/main/resources/application-prod.yml   ← §4.2
-├── src/main/resources/db/migration/V202610170900__schemas_extensions_outbox.sql   ← 04-database.md §3.1
+├── src/main/resources/db/migration/shared/V202610171200__modulith_event_publication.sql      ← 04-database.md §3.1
+├── src/main/resources/db/migration/shared/V202610172111__module_schemas_and_extensions.sql   ← 04-database.md §3.1
 └── src/test/java/pt/vclubroom/...
 ```
 
-Sources: [03-backend/README.md §3–§5](../../03-backend/README.md), [04-database.md §3.1](../../04-database.md).
+Sources: [03-backend/README.md §3–§5](../../03-backend/README.md), [04-database.md §3.1](../../04-database.md). Migrations live in one folder per module (`db/migration/<module>/`); the cross-cutting ones are in `shared/`.
 
 ## 2. Maven wrapper
 
@@ -44,7 +45,7 @@ Commit `mvnw`, `mvnw.cmd` and `.mvn/`.
 
 ## 3. Shared kernel
 
-Create the classes of [03-backend/README.md §6](../../03-backend/README.md) under `pt.vclubroom.shared` (`security/`, `error/`, `web/`, `config/`), plus `EventPublicationMaintenance` from [06-messaging §3.2](../../06-messaging-and-realtime.md).
+Create the classes of [03-backend/README.md §6](../../03-backend/README.md) under `pt.vclubroom.shared` (`security/`, `error/`, `web/`, `config/`), plus `EventPublicationMaintenance` from [06-messaging §3.2](../../06-messaging-and-realtime.md). `config/` also holds `ClockConfig` (the `Clock` bean, §5) and `OpenApiConfig` (API title and version in Swagger).
 
 ## 4. Module skeleton script
 
@@ -121,40 +122,16 @@ Then add `ModularityTests` and `TestcontainersConfiguration` from [03-backend/RE
 
 ## 5. Smoke test
 
-```java
-package pt.vclubroom;
+`src/test/java/pt/vclubroom/ClubroomApplicationTests.java` starts the whole application against the Testcontainers PostgreSQL and Redis (`@SpringBootTest` + `@AutoConfigureMockMvc` + `@Import(TestcontainersConfiguration.class)`) and checks through MockMvc that:
 
-import static org.assertj.core.api.Assertions.assertThat;
+- `/actuator/health` and `/v3/api-docs` are public, and `/api/me` is 401 without a session;
+- `GET /api/auth/csrf` issues a readable `XSRF-TOKEN` cookie, and a POST passes the CSRF check only with the cookie value echoed in `X-XSRF-TOKEN`;
+- the migrations created the 12 module schemas, `pg_trgm` and `event_publication`.
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.health.HealthEndpoint;
-import org.springframework.boot.actuate.health.Status;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-
-/** Calls the health endpoint bean directly, so it works before SecurityConfig exists (E02-S01-T5). */
-@SpringBootTest(properties = {
-        "spring.security.oauth2.client.registration.fortytwo.client-id=test",
-        "spring.security.oauth2.client.registration.fortytwo.client-secret=test",
-        "app.storage.init-buckets=false",        // no SeaweedFS in tests (BucketInitializer)
-        "management.health.mail.enabled=false"   // no SMTP server in tests
-})
-@Import(TestcontainersConfiguration.class)
-class ApplicationSmokeTests {
-
-    @Autowired
-    HealthEndpoint healthEndpoint;
-
-    @Test
-    void applicationStartsAndIsHealthy() {
-        assertThat(healthEndpoint.health().getStatus()).isEqualTo(Status.UP);
-    }
-}
-```
+No test properties are needed: the 42 client id/secret have `not-configured` defaults, and mail health is off in `application.yml`. Later integration tests use the same three annotations so Spring reuses the cached context and containers.
 
 ```bash
-./mvnw verify          # ModularityTests + smoke test (Docker must be running for Testcontainers)
+./mvnw verify          # ModularityTests + application tests (Docker must be running for Testcontainers)
 ```
 
 ## 6. Run locally
@@ -178,33 +155,17 @@ curl -s localhost:8080/actuator/health          # {"status":"UP",...}
 curl -s localhost:8080/v3/api-docs | jq .info   # OpenAPI document
 ```
 
-> Until `SecurityConfig` exists (E02-S01-T5), Spring Boot's default security protects every URL, so these two `curl` calls return 401/302. The smoke test above covers M0's health check in the meantime. Once E02 is merged, both URLs are public as configured.
+Both URLs are public (`SecurityConfig`). The dev profile turns the Swagger UI on at <http://localhost:8080/swagger-ui.html>.
+
+> The tunnel route of the demo hostname points at `localhost:8080` on the demo laptop, so whatever runs there is reachable at `https://42clubroom.ensui.dev`, including this dev backend and its Swagger UI. Disable the route in Cloudflare when you don't need it.
 
 ## 7. Authentication (E02)
 
-Follow [identity.md §9](../../03-backend/identity.md) and [07-security §3](../../07-security.md) in this order:
-
-1. `identity` migration ([04-database §4.1](../../04-database.md)) → `User`, enums, `UserRepository`.
-2. `identity.api` records/interfaces → `UserDirectoryService`.
-3. `FortyTwoProfileMapper`, `FortyTwoOAuth2UserService`, `ClubroomOAuth2User`, `UserProvisioningService`, `IdentityProperties`.
-4. `SecurityConfig`, `SpaCsrfTokenRequestHandler`, local login classes, `AuthController`, `MeController`, `AdminBootstrap`.
-
-**Check from the terminal** (local admin from `.env`):
-
-```bash
-JAR=$(mktemp)
-curl -s -c "$JAR" -b "$JAR" localhost:8080/api/auth/csrf -o /dev/null
-XSRF=$(awk '$6=="XSRF-TOKEN"{print $7}' "$JAR")
-curl -s -c "$JAR" -b "$JAR" -H "X-XSRF-TOKEN: $XSRF" -H 'Content-Type: application/json' \
-     -d '{"username":"admin","password":"change-me-admin"}' localhost:8080/api/auth/login | jq
-curl -s -b "$JAR" localhost:8080/api/me | jq          # → your user, admin: true
-```
-
-**Login with 42** is tested through the frontend dev server (`http://localhost:5173`, guide 03) because the redirect URI is registered for that origin.
+Step by step in **[guide 02a — Authentication](02a-authentication.md)**: users table, Login with 42 that stores users, `identity.api`, local login with a bootstrap admin, logout, the final URL rules and the full `/api/me`. Every file is given in full, each step ends with a green build, and step 7 has the curl and browser checks.
 
 ## 8. Done when
 
 - [ ] `./mvnw verify` green; `ModularityTests` lists 13 modules + shared.
 - [ ] `/actuator/health` UP, `/v3/api-docs` served, Swagger UI at `/swagger-ui.html` (dev).
-- [ ] Local login works with curl; `/api/me` returns 401 without a session.
-- [ ] Login with 42 lands back on the SPA logged in (after guide 03).
+- [ ] Local login works with curl; `/api/me` returns 401 without a session ([guide 02a](02a-authentication.md) step 7).
+- [ ] Login with 42 through `http://localhost:5173` creates your user (guide 02a step 7; the login page itself comes with guide 03).

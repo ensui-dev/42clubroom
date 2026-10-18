@@ -4,6 +4,7 @@
 |---|---|
 | **Goal** | Students log in with 42, staff and partners with a local password; the session works across instances; the SPA knows who is logged in. |
 | **Design** | [identity.md](../../03-backend/identity.md), [07-security.md](../../07-security.md), [08-frontend §8](../../08-frontend.md) |
+| **Guide** | Backend (E02-S01, E02-S02, E02-S04-T1): [guide 02a](../guide/02a-authentication.md), step by step with every file |
 | **Primary track** | A (backend), C (frontend) |
 | **Depends on** | E01 |
 | **Estimate** | 8 h (8 Must · 0 Should · 0 Could) |

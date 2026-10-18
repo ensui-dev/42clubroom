@@ -11,7 +11,7 @@
 cd UNIX_CLUB/backend && ./mvnw verify
 
 # frontend
-cd UNIX_CLUB/frontend && npm run lint && npm test -- --run && npm run build
+cd UNIX_CLUB/frontend && npm run lint && npm test && npm run build
 ```
 
 There is no CI on the organisers' repository, so **these local checks are the gate** (PR checklist, [CONTRIBUTING §4.2](../CONTRIBUTING.md#42-pr-description-template-copy-paste)).

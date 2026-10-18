@@ -53,7 +53,8 @@ Solid lines are foreign keys inside a schema. Dotted lines are logical reference
 
 ```text
 db/migration/
-├── V202610170900__schemas_extensions_outbox.sql
+├── shared/V202610171200__modulith_event_publication.sql
+├── shared/V202610172111__module_schemas_and_extensions.sql
 ├── identity/V202610170910__identity_init.sql
 ├── club/V202610170920__club_init.sql
 ├── membership/V202610170930__membership_init.sql
@@ -68,7 +69,9 @@ db/migration/
 └── history/V202610171100__history_init.sql
 ```
 
-### 3.1 `V202610170900__schemas_extensions_outbox.sql`
+### 3.1 Base migrations (`shared/`)
+
+In the repository this SQL is split in two files: `shared/V202610171200__modulith_event_publication.sql` (the outbox table) and `shared/V202610172111__module_schemas_and_extensions.sql` (schemas and `pg_trgm`).
 
 ```sql
 -- Schemas are also created by Flyway (spring.flyway.create-schemas=true); repeated for clarity and idempotence.
